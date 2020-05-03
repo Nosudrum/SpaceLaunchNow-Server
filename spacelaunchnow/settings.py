@@ -201,7 +201,6 @@ INSTALLED_APPS = [
     'bot',
     'configurations',
     'embed_video',
-    'suit',
     'django.contrib.admin',
     'django_user_agents',
     'django_filters',
