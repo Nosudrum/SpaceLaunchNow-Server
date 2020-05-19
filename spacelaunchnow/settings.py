@@ -402,16 +402,16 @@ DEFAULT_FROM_EMAIL = config.EMAIL_FROM_EMAIL
 
 # AWS Storage Information
 
-AWS_STORAGE_BUCKET_NAME = config.STORAGE_BUCKET_NAME
+AWS_STORAGE_BUCKET_NAME = os.getenv('STORAGE_BUCKET_NAME', config.STORAGE_BUCKET_NAME)
 
 # Not using CloudFront?
 # S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # Using CloudFront?
 # S3_CUSTOM_DOMAIN = CLOUDFRONT_DOMAIN
-AWS_S3_CUSTOM_DOMAIN = config.S3_CUSTOM_DOMAIN
+AWS_S3_CUSTOM_DOMAIN = os.getenv('S3_CUSTOM_DOMAIN', config.S3_CUSTOM_DOMAIN)
 
 # Static URL always ends in /
-STATIC_URL = config.S3_CUSTOM_DOMAIN + "/"
+STATIC_URL = os.getenv('S3_CUSTOM_DOMAIN', config.S3_CUSTOM_DOMAIN) + "/"
 
 # If not using CloudFront, leave None in config.
 CLOUDFRONT_DOMAIN = config.CLOUDFRONT_DOMAIN
