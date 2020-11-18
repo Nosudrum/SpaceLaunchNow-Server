@@ -1,2 +1,3 @@
 -r common.txt
 django-launch-library==2.4.0-beta3
+-e ../django-admin-black

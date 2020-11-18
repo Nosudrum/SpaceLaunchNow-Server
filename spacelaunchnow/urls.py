@@ -160,8 +160,6 @@ if settings.IS_WEBSERVER:
 
 if settings.IS_ADMIN:
     admin_settings = [
-        url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
-        url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
         url(r'^admin/', admin.site.urls),
         url('^', include('django.contrib.auth.urls')),
         url(r'^signup/$', landing_views.signup, name='signup'),
