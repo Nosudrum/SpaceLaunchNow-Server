@@ -114,16 +114,20 @@ def index(request):
         first_launch_image = first_launch.infographic_url.url
     else:
         first_launch_image = None
-    second_launch = _launches[1]
 
-    if second_launch.image_url:
-        second_launch_image = second_launch.image_url.url
-    elif second_launch.rocket.configuration.image_url:
-        second_launch_image = second_launch.rocket.configuration.image_url.url
-    elif second_launch.infographic_url:
-        second_launch_image = second_launch.infographic_url.url
-    else:
-        second_launch_image = None
+    second_launch = None
+    second_launch_image = None
+
+    if len(_launches) > 2:
+        second_launch = _launches[1]
+        if second_launch.image_url:
+            second_launch_image = second_launch.image_url.url
+        elif second_launch.rocket.configuration.image_url:
+            second_launch_image = second_launch.rocket.configuration.image_url.url
+        elif second_launch.infographic_url:
+            second_launch_image = second_launch.infographic_url.url
+        else:
+            second_launch_image = None
 
     user_agent = get_user_agent(request)
     if user_agent.is_mobile:
@@ -448,7 +452,7 @@ def event_by_slug(request, slug):
         return render(request, 'web/events/event_detail.html', {'previous_launches': previous_launches,
                                                                 'event': event})
     except ObjectDoesNotExist:
-        raise redirect('events_list')
+        raise Http404
 
 
 @cache_page(600)
@@ -460,6 +464,9 @@ def starship_page(request):
         vehicles = Launcher.objects.filter(launcher_config__program=1).order_by('status', 'serial_number')
         combined = list(chain(events, launches))
         combined = sorted(combined, key=lambda x: (x.date if isinstance(x, Events) else x.net))
+        next_up = None
+        if len(combined) > 0:
+            next_up = combined[0]
         live_streams = VidURLs.objects.filter(program=1)[:5]
         road_closures = RoadClosure.objects.filter(window_end__gte=datetime.utcnow()).order_by('window_end')[:10]
         notices = Notice.objects.filter(date__gte=datetime.utcnow()).order_by('date')[:10]
@@ -470,7 +477,7 @@ def starship_page(request):
                                                                      'road_closures': road_closures,
                                                                      'notices': notices,
                                                                      'live_streams': live_streams,
-                                                                     'next_up': combined[0],
+                                                                     'next_up': next_up,
                                                                      'combined': combined[1:6],
                                                                      'vehicles': vehicles})
     except ObjectDoesNotExist:
@@ -481,7 +488,7 @@ def event_by_id(request, id):
     try:
         return redirect('event_by_slug', slug=Events.objects.get(id=id).slug)
     except ObjectDoesNotExist:
-        raise redirect('events_list')
+        raise Http404
 
 
 @cache_page(600)
