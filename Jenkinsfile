@@ -36,8 +36,6 @@ pipeline{
 	
 	environment {
 		BRANCH = "${BRANCH_NAME}"
-		registry="registry.calebjones.dev:5050/sln-server"
-		registryCredential = 'calebregistry'
 		doRegistry = "registry.digitalocean.com/spacelaunchnow-registry"
 		doRegistryURL = "https://registry.digitalocean.com/spacelaunchnow-registry"
 		doRegistryCredential= 'digitalocean_registry'
