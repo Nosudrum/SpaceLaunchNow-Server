@@ -88,7 +88,7 @@ pipeline{
 					} else {
 					    withCredentials([string(credentialsId: 'EXTRA_INDEX_URL', variable: 'INDEX_URL')]) {
                             def buildArg = '--build-arg EXTRA_INDEX_URL="$INDEX_URL" .'
-                            def dockerReg = registry + ":" + imageName
+                            def dockerReg = doRegistry + ":" + imageName
                             dockerImage = docker.build(dockerReg, buildArg)
                         }
 					}
@@ -100,10 +100,10 @@ pipeline{
 				script{
 					docker.withRegistry(doRegistryURL, doRegistryCredential){
 						if (env.BRANCH_NAME == 'master') {
-						    sh "docker tag ${registry}:production ${doRegistry}/sln-server:production"
+						    sh "docker tag ${doRegistry}/sln-server:production"
 						    sh "docker push ${doRegistry}/sln-server:production"
 						} else {
-                            sh "docker tag ${registry}:${dockerTag} ${doRegistry}/sln-server:${dockerTag}"
+                            sh "docker tag ${doRegistry}/sln-server:${dockerTag}"
 						    sh "docker push ${doRegistry}/sln-server:${dockerTag}"
 						}
 					}
