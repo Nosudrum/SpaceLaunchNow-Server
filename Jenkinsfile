@@ -87,7 +87,7 @@ pipeline{
 						echo "No Dockerfile";
 					} else {
 					    withCredentials([string(credentialsId: 'EXTRA_INDEX_URL', variable: 'INDEX_URL')]) {
-                            def buildArg = '--ssh github_ssh_key=/root/.ssh/id_ed25519 --build-arg EXTRA_INDEX_URL="$INDEX_URL" .'
+                            def buildArg = '--build-arg EXTRA_INDEX_URL="$INDEX_URL" .'
                             def dockerReg = doRegistry + ":" + imageName
                             dockerImage = docker.build(dockerReg, buildArg)
                         }

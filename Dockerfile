@@ -9,8 +9,6 @@ COPY src/requirements.txt /code/requirements.txt
 
 
 RUN apt-get update && apt-get install -y --no-install-recommends git ssh gcc python-dev
-# Set git links to be ssh instead of https, we will pass the SSH key in a SSH forward agent style
-RUN git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
 ARG EXTRA_INDEX_URL
 RUN pip config set global.extra-index-url "${EXTRA_INDEX_URL}"
