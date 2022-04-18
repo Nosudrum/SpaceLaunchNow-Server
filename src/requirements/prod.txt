@@ -1,2 +1,2 @@
 -r common.txt
-django-launch-library @ git+https://github.com/TheSpaceDevs/LaunchLibrary-API.git@release-2.6.15#egg=django-launch-library
+django-launch-library @ git+ssh://git@github.com/TheSpaceDevs/LaunchLibrary-API.git@release-2.6.15#egg=django-launch-library
